@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="GoodsControl.dao.GoodsDao">
+
+
+    <!--商品列表-->
+    <select id="listGoodsByPage" parameterType="GoodsControl.entity.GoodsInfo" resultType="GoodsControl.entity.GoodsInfo">
+        select
+        a.goods_code  as goodsCode,
+        a.goods_name  as goodsName,
+        a.goods_pricing ,
+        a.goods_sell_price,
+        a.goods_sales,
+        a.primary_class,
+        a.second_class,
+        a.goods_ad,
+        a.goods_introduction,
+        a.goods_status,
+        a. press,
+        a.author,
+        a.shelf_time,
+        a. store_code,
+        a.store_name,
+        a.inventory,
+        a.isbn_booknum,
+        a.goods_picture,
+        a.is_deleted,
+        a.gmt_create,
+        a.create_by,
+        a.gmt_modified,
+        a.last_modified_by,
+        a.version
+        from t_goods_management a
+        where a.is_deleted = 0
+        <if test="goodsCode != null and goodsCode != ''">
+            and a.goods_code like concat('%', #{goodsCode}, '%')
+        </if>
+        <if test="goodsName != null and goodsName != ''">
+            and a.goods_name like concat('%', #{goodsName}, '%')
+        </if>
+        order by gmt_create desc
+    </select>
+    <!--商品新增-->
+<insert id="addGoods" parameterType="GoodsControl.entity.GoodsInfo">
+
+    insert into t_goods_management
+        (goods_code,
+        goods_name ,
+        goods_pricing ,
+        goods_sell_price,
+        goods_sales,
+        primary_class,
+        second_class,
+        goods_ad,
+        goods_introduction,
+        goods_status,
+        press,
+        author,
+        shelf_time,
+        store_code,
+        store_name,
+        inventory,
+        isbn_booknum,
+        goods_picture,
+        is_deleted,
+        gmt_create,
+        create_by,
+        gmt_modified,
+        last_modified_by,
+        version)
+        values(
+        #{goodsCode},
+        #{goodsName},
+        #{goodsPricing},
+        #{goodsSellPrice},
+        #{goodsSales},
+        #{primaryClass},
+        #{secondClass},
+        #{goodsAd},
+        #{goodsIntroduction},
+        #{goodsStatus},
+        #{press},
+        #{author},
+        #{shelfTime},
+        #{storeCode},
+        #{storeName},
+        #{inventory},
+        #{bookNum},
+        #{goodsPicture},
+        #{isDeleted},
+        #{gmtCreate},
+        #{createBy},
+        #{gmtModified},
+        #{lastModifiedBy},
+        #{version}
+        )
+</insert>
+    <!--查询某一商品名个数-->
+<select id="countGoodsName" parameterType="GoodsControl.entity.GoodsInfo" resultType="Integer">
+
+    select  count(goods_name)
+    from t_goods_management
+    where is_deleted = 0
+    and goods_name = #{goodsName}
+</select>
+
+
+    <!--删除商品-->
+    <update id="deleteGoods" parameterType="GoodsControl.entity.GoodsInfo">
+        update t_goods_management
+        set
+        is_deleted = 1,
+        gmt_modified = now(),
+        version = version + 1
+        where goods_code = #{goodsCode}
+
+    </update>
+
+    <!--修改商品信息-->
+    <update id="updateGoods" parameterType="GoodsControl.entity.GoodsInfo">
+        update t_goods_management
+        set
+        goods_code = #{goodsCode},
+        goods_name = #{goodsName},
+        goods_pricing = #{goodsPricing},
+        goods_sell_price = #{goodsSellPrice},
+        primary_class = #{primaryClass},
+        second_class = #{secondClass},
+        goods_ad = #{goodsAd},
+        goods_introduction = #{goodsIntroduction},
+        goods_status = #{goodsStatus},
+        press = #{press},
+        author = #{author},
+        store_code = #{storeCode},
+        store_name = #{storeName},
+        isbn_booknum = #{isBnBookNum},
+        goods_picture = #{goodsPicture},
+            gmt_modified = now(),
+            last_modified_by   = #{lastModifiedBy},
+            version      = version + 1
+        where goods_code = #{goodsCode}
+          and version = #{version}
+    </update>
+
+    <!--获取商品信息-->
+    <select id="getGoodsByCode" parameterType="java.lang.String" resultType="GoodsControl.entity.GoodsInfo">
+        select
+        a.goods_code goodsCode,
+        a.goods_name goodsName,
+        a.goods_pricing ,
+        a.goods_sell_price,
+        a.goods_sales,
+        a.primary_class,
+        a.second_class,
+        a.goods_ad,
+        a.goods_introduction,
+        a.goods_status,
+        a. press,
+        a.author,
+        a.shelf_time,
+        a. store_code,
+        a.store_name,
+        a.inventory,
+        a.isbn_booknum,
+        a.goods_picture
+        from t_goods_management a
+        where goods_code = #{goodsCode}
+        and is_deleted =0
+    </select>
+</mapper>

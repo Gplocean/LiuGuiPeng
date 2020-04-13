@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="PictureControl.dao.GoodsDao">
+
+
+
+
+<insert id="addPicture" parameterType="PictureControl.entity.PictureInfo">
+    insert into t_picture_management
+    (
+        picture_sorting,
+        picture_path,
+        picture_state,
+        effective_date,
+        expiry_date,
+        goods_code,
+        goods_picture,
+        is_deleted,
+        gmt_create,
+        create_by,
+        gmt_modified,
+        last_modified_by,
+        version
+    )
+   values
+   (
+        #{pictureSortNum},
+        #{picturePath},
+        #{pictureState},
+        #{effectiveDate},
+        #{expiryDate},
+        #{goodsCode},
+        #{goodsPicture},
+        #{isDeleted},
+        now(),
+        #{createBy},
+        now(),
+        #{lastModifiedBy},
+        0
+   )
+
+
+</insert>
+
+    <update id="updatePicture" parameterType="PictureControl.entity.PictureInfo">
+        update t_picture_management
+        set
+        picture_sorting = #{pictureSortNum},
+        picture_path = #{picturePath},
+        picture_state = #{pictureState},
+        effective_date = #{effectiveDate},
+        expiry_date = #{expiryDate},
+        goods_picture = {goodsPicture},
+        last_modified_by = now() ,
+        version = version +1
+
+        where picture_sorting = #{pictureSortNum}
+        and is_deleted=0
+    </update>
+
+    <!--删除商品-->
+    <update id="deletePicture" parameterType="PictureControl.entity.PictureInfo">
+        update t_picture_management
+        set
+        is_deleted = 1,
+        gmt_modified = now(),
+        version = version + 1
+        where picture_sorting = #{pictureSortNum}
+
+    </update>
+
+    <select id="listPictureByPage" parameterType="PictureControl.entity.PictureInfo" resultType="PictureControl.entity.PictureInfoInfo">
+        select
+        picture_sorting,
+        picture_path,
+        picture_state,
+        effective_date,
+        expiry_date,
+        goods_picture,
+        from t_picture_management
+        where is_deleted = 0
+        order by gmt_create desc
+    </select>
+
+    <select id="countPictureSortNum" parameterType="PictureControl.entity.PictureInfo" resultType="Integer">
+
+    select  count(picture_sorting)
+    from t_picture_management
+    where is_deleted = 0
+    and picture_sorting = #{pictureSortNum}
+    </select>
+
+    <select id="countGoodsCode" parameterType="PictureControl.entity.PictureInfo" resultType="Integer">
+
+    select  count(goodsCode)
+    from t_picture_management
+    where is_deleted = 0
+    and goods_code = #{goodsCode}
+    </select>
+
+</mapper>

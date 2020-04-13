@@ -21,7 +21,7 @@ public class GoodsSortControl {
     private GoodsSortService goodsSortService;
 
     /**
-     * demo 新增轮播图
+         * demo 新增商品分类
      *
      * @param goodsSortInfo
      * @return AppResponse
@@ -41,11 +41,18 @@ public class GoodsSortControl {
         }
 
     }
-
+    /**
+     * demo 查询商品一级分类
+     *
+     * @param goodsSortInfo
+     * @return AppResponse
+     * @author Liu
+     * @Date 2020-04-10
+     */
     @PostMapping("/listAllGoodsClassify")
-    public AppResponse listGoodsSort(GoodsSortInfo goodsSortInfo) {
+    public AppResponse listFirstGoodsSort(GoodsSortInfo goodsSortInfo) {
         try {
-            return goodsSortService.listGoodsSort(goodsSortInfo);
+            return goodsSortService.listFirstGoodsSort(goodsSortInfo);
         } catch (Exception e) {
             logger.error("查询商品分类异常", e);
             System.out.println(e.toString());
@@ -55,6 +62,35 @@ public class GoodsSortControl {
 
     }
 
+
+    /**
+     * demo 查询商品二级分类
+     *
+     * @param goodsSortInfo
+     * @return AppResponse
+     * @author Liu
+     * @Date 2020-04-10
+     */
+    @PostMapping("/listAllGoodsClassify")
+    public AppResponse listSecondGoodsSort(GoodsSortInfo goodsSortInfo) {
+        try {
+            return goodsSortService.listSecondGoodsSort(goodsSortInfo);
+        } catch (Exception e) {
+            logger.error("查询商品分类异常", e);
+            System.out.println(e.toString());
+            throw e;
+        }
+
+
+    }
+    /**
+     * demo 删除商品分类
+     *
+     * @param goodsSortInfo
+     * @return AppResponse
+     * @author Liu
+     * @Date 2020-04-10
+     */
     @PostMapping("/deleteGoodsClassify")
     public AppResponse deleteGoodsSort(GoodsSortInfo goodsSortInfo) {
         try {
@@ -65,7 +101,14 @@ public class GoodsSortControl {
             throw e;
         }
     }
-
+    /**
+     * demo 修改商品分类
+     *
+     * @param goodsSortInfo
+     * @return AppResponse
+     * @author Liu
+     * @Date 2020-04-10
+     */
     @PostMapping("/updateGoodsClassify")
     public AppResponse updateGoodsSort(GoodsSortInfo goodsSortInfo) {
         try {
@@ -78,7 +121,7 @@ public class GoodsSortControl {
     }
 
     /**
-     * 查询轮播图详情
+     * 查询商品分类详情
      * @param goodsSortInfo
      * @return
      */
@@ -88,7 +131,7 @@ public class GoodsSortControl {
         try {
             return goodsSortService.getGoodsSortBySort(goodsSortInfo);
         } catch (Exception e) {
-            logger.error("修改商品分类详情异常", e);
+            logger.error("查询商品分类详情异常", e);
             System.out.println(e.toString());
             throw e;
         }

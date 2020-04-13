@@ -31,14 +31,14 @@
   </insert>
 
     <!--查询一级商品分类名-->
-<select id="listGoodsSortFirst" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="GoodsSortControl.entity.GoodsSortInfo">
+<select id="listFirstGoodsSort" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="GoodsSortControl.entity.GoodsSortInfo">
     select GoodsSortFirstName
     from GoodsSortFirst
     where is_deleted = 0
 </select>
 
     <!--查询二级商品分类名-->
-    <select id="listGoodsSortSecond" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="GoodsSortControl.entity.GoodsSortInfo">
+    <select id="listSecondGoodsSort" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="GoodsSortControl.entity.GoodsSortInfo">
     select GoodsSortSecondName
     from GoodsSortSecond
     where class_parent = #{classParent}

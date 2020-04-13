@@ -1,6 +1,7 @@
 package GoodsSortControl.service;
 
 
+import GoodsControl.entity.GoodsInfo;
 import GoodsSortControl.dao.GoodsSortDao;
 import GoodsSortControl.entity.GoodsSortInfo;
 import com.github.pagehelper.PageHelper;
@@ -43,18 +44,28 @@ public class GoodsSortService {
     }
 
     /**
-     * 查询轮播图列表
+     * 查询一级分类列表
      * @param goodsSortInfo
      * @return
      * @author liuguipeng
      */
-    public AppResponse listGoodsSort(GoodsSortInfo goodsSortInfo){
+    public AppResponse listFirstGoodsSort(GoodsSortInfo goodsSortInfo){
 
-        PageHelper.startPage(goodsSortInfo.getPageNum(), goodsSortInfo.getPageSize());
-        List<GoodsSortInfo> goodsSortInfoList = goodsSortDao.listGoodsSort(goodsSortInfo);
-        PageInfo<GoodsSortInfo> pageData = new PageInfo<>(goodsSortInfoList);
+       List<GoodsSortInfo> goodsSortInfoList = goodsSortDao.listFirstGoodsSort(goodsSortInfo);
+        return AppResponse.success("查询成功！", goodsSortInfoList);
 
-        return AppResponse.success("从数据库查询成功!", pageData);
+    }
+
+    /**
+     * 查询二级分类列表
+     * @param goodsSortInfo
+     * @return
+     * @author liuguipeng
+     */
+    public AppResponse listSecondGoodsSort(GoodsSortInfo goodsSortInfo){
+
+        List<GoodsSortInfo> goodsSortInfoList = goodsSortDao.listSecondGoodsSort(goodsSortInfo);
+        return AppResponse.success("查询成功！", goodsSortInfoList);
 
     }
 

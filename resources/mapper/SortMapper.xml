@@ -9,6 +9,7 @@
         class_name,
         class_parent,
         remarks,
+        goods_code,
         is_deleted,
         gmt_create,
         create_by,
@@ -21,9 +22,10 @@
     #{className},
     #{classParent},
     #{remarks},
+    now(),
     0,
     now(),
-    #{createBy}
+    #{createBy},
     now(),
     #{lastModifiedBy},
     0
@@ -32,16 +34,16 @@
 
     <!--查询一级商品分类名-->
 <select id="listFirstGoodsSort" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="GoodsSortControl.entity.GoodsSortInfo">
-    select GoodsSortFirstName
-    from GoodsSortFirst
+    select sort_name
+    from sort_first_name
     where is_deleted = 0
 </select>
 
     <!--查询二级商品分类名-->
     <select id="listSecondGoodsSort" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="GoodsSortControl.entity.GoodsSortInfo">
-    select GoodsSortSecondName
-    from GoodsSortSecond
-    where class_parent = #{classParent}
+    select sort_name
+    from sort_second_name
+    where sort_id = #{classParent}
     and is_deleted = 0
 </select>
     <!--修改商品分类-->
@@ -58,17 +60,22 @@
     </update>
 
     <!--删除商品分类-->
-    <update id="updateGoodsSort" parameterType="GoodsSortControl.entity.GoodsSortInfo" >
+    <update id="deleteGoodsSort" parameterType="GoodsSortControl.entity.GoodsSortInfo" >
         update  t_goods_classification
         set
             class_id = #{classCode},
             class_name = #{className},
             remarks = #{remarks},
-            version = version+1
+            version = version+1,
             gmt_modified = now(),
-            last_modified_by   = #{lastModifiedBy},
-            is_delete = 1
-
+            last_modified_by  = #{lastModifiedBy},
+            is_deleted = 1
     </update>
+<select id="countSortName" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="Integer">
+    select  count(class_name)
+    from t_goods_classification
+    where is_deleted = 0
+    and class_name = #{className}
 
+</select>
 </mapper>

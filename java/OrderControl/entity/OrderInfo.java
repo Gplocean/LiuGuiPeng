@@ -1,4 +1,4 @@
-package GoodsSortControl.entity;
+package OrderControl.entity;
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  * @Date 2020-04-01
  */
 
-public class GoodsSortInfo {
+public class OrderInfo {
 
         /**
          * 页码
@@ -19,25 +19,37 @@ public class GoodsSortInfo {
          */
         private int pageNum;
         /**
+         * 订单id
+         */
+        private String orderCode;
+        /**
+         * 订单总价
+         */
+        private String orderPrice;
+        /**
+         * 订单状态
+         */
+        private String  orderStatus;
+        /**
+         * 门店编号
+         */
+        private String storeCode;
+        /**
+         * 下单人名
+         */
+        private String orderName;
+        /**
+         * 下单人手机
+         */
+        private int phone;
+        /**
+         * 下单人id
+         */
+        private  String userCode;
+        /**
          * 商品id
          */
         private String goodsCode;
-        /**
-         * 商品分类id
-         */
-        private String classCode;
-        /**
-         * 商品分类名称
-         */
-        private String  className;
-        /**
-         * 商品分类父级编号
-         */
-        private String classParent;
-        /**
-         * 商品分类备注
-         */
-        private String remarks;
 
         /**
          * 作废标记 0为正常，1为作废
@@ -77,20 +89,32 @@ public class GoodsSortInfo {
                 return goodsCode;
         }
 
-        public String getClassCode() {
-                return classCode;
+        public String getOrderCode() {
+                return orderCode;
         }
 
-        public String getClassName() {
-                return className;
+        public String getOrderPrice() {
+                return orderPrice;
         }
 
-        public String getClassParent() {
-                return classParent;
+        public String getOrderStatus() {
+                return orderStatus;
         }
 
-        public String getRemarks() {
-                return remarks;
+        public String getStoreCode() {
+                return storeCode;
+        }
+
+        public String getOrderName() {
+                return orderName;
+        }
+
+        public int getPhone() {
+                return phone;
+        }
+
+        public String getUserCode() {
+                return userCode;
         }
 
         public int getIsDeleted() {
@@ -129,20 +153,32 @@ public class GoodsSortInfo {
                 this.goodsCode = goodsCode;
         }
 
-        public void setClassCode(String classCode) {
-                this.classCode = classCode;
+        public void setOrderCode(String orderCode) {
+                this.orderCode = orderCode;
         }
 
-        public void setClassName(String className) {
-                this.className = className;
+        public void setOrderPrice(String orderPrice) {
+                this.orderPrice = orderPrice;
         }
 
-        public void setClassParent(String classParent) {
-                this.classParent = classParent;
+        public void setOrderStatus(String orderStatus) {
+                this.orderStatus = orderStatus;
         }
 
-        public void setRemarks(String remark) {
-                this.remarks = remark;
+        public void setStoreCode(String storeCode) {
+                this.storeCode = storeCode;
+        }
+
+        public void setOrderName(String orderName) {
+                this.orderName = orderName;
+        }
+
+        public void setPhone(int phone) {
+                this.phone = phone;
+        }
+
+        public void setUserCode(String userCode) {
+                this.userCode = userCode;
         }
 
         public void setIsDeleted(int isDeleted) {

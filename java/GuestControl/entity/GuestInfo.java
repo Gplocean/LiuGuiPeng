@@ -1,4 +1,4 @@
-package GoodsSortControl.entity;
+package GuestControl.entity;
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  * @Date 2020-04-01
  */
 
-public class GoodsSortInfo {
+public class GuestInfo {
 
         /**
          * 页码
@@ -19,25 +19,38 @@ public class GoodsSortInfo {
          */
         private int pageNum;
         /**
-         * 商品id
+         * 客户id
          */
-        private String goodsCode;
+        private String guestCode;
         /**
-         * 商品分类id
+         * 客户账号
          */
-        private String classCode;
+        private String guestAccount;
         /**
-         * 商品分类名称
+         * 客户名
          */
-        private String  className;
+        private String guestName;
         /**
-         * 商品分类父级编号
+         * 客户身份证号
          */
-        private String classParent;
+        private String guestIdCard;
         /**
-         * 商品分类备注
+         * 客户性别
          */
-        private String remarks;
+        private String sex;
+        /**
+         * 客户电话
+         */
+        private String telephone;
+        /**
+         * 客户邮箱
+         */
+        private String email;
+
+        /**
+         * 客户角色
+         */
+        private  int role;
 
         /**
          * 作废标记 0为正常，1为作废
@@ -73,24 +86,36 @@ public class GoodsSortInfo {
                 return pageNum;
         }
 
-        public String getGoodsCode() {
-                return goodsCode;
+        public String getGuestCode() {
+                return guestCode;
         }
 
-        public String getClassCode() {
-                return classCode;
+        public String getGuestAccount() {
+                return guestAccount;
         }
 
-        public String getClassName() {
-                return className;
+        public String getGuestName() {
+                return guestName;
         }
 
-        public String getClassParent() {
-                return classParent;
+        public String getGuestIdCard() {
+                return guestIdCard;
         }
 
-        public String getRemarks() {
-                return remarks;
+        public String getSex() {
+                return sex;
+        }
+
+        public String getTelephone() {
+                return telephone;
+        }
+
+        public String getEmail() {
+                return email;
+        }
+
+        public int getRole() {
+                return role;
         }
 
         public int getIsDeleted() {
@@ -125,24 +150,36 @@ public class GoodsSortInfo {
                 this.pageNum = pageNum;
         }
 
-        public void setGoodsCode(String goodsCode) {
-                this.goodsCode = goodsCode;
+        public void setGuestCode(String guestCode) {
+                this.guestCode = guestCode;
         }
 
-        public void setClassCode(String classCode) {
-                this.classCode = classCode;
+        public void setGuestAccount(String guestAccount) {
+                this.guestAccount = guestAccount;
         }
 
-        public void setClassName(String className) {
-                this.className = className;
+        public void setGuestName(String guestName) {
+                this.guestName = guestName;
         }
 
-        public void setClassParent(String classParent) {
-                this.classParent = classParent;
+        public void setGuestIdCard(String guestIdCard) {
+                this.guestIdCard = guestIdCard;
         }
 
-        public void setRemarks(String remark) {
-                this.remarks = remark;
+        public void setSex(String sex) {
+                this.sex = sex;
+        }
+
+        public void setTelephone(String telephone) {
+                this.telephone = telephone;
+        }
+
+        public void setEmail(String email) {
+                this.email = email;
+        }
+
+        public void setRole(int role) {
+                this.role = role;
         }
 
         public void setIsDeleted(int isDeleted) {

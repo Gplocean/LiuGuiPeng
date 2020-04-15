@@ -1,5 +1,6 @@
 package PictureControl.controller;
 
+import GoodsControl.entity.GoodsInfo;
 import PictureControl.entity.PictureInfo;
 import PictureControl.service.PictureService;
 import org.slf4j.Logger;
@@ -41,10 +42,15 @@ public class PictureControl {
 
     }
 
+    /**
+     * 分页查询轮播图
+     * @param pictureInfo
+     * @return
+     */
     @PostMapping("/listPictureByPage")
-    public AppResponse listPictureByCode(PictureInfo pictureInfo) {
+    public AppResponse listPictureByPage(PictureInfo pictureInfo) {
         try {
-            return pictureService.listPicture(pictureInfo);
+            return pictureService.listPictureByPage(pictureInfo);
         } catch (Exception e) {
             logger.error("查询轮播图列表异常", e);
             System.out.println(e.toString());
@@ -54,6 +60,11 @@ public class PictureControl {
 
     }
 
+    /**
+     * 删除轮播图
+     * @param pictureInfo
+     * @return
+     */
     @PostMapping("/deletePicture")
     public AppResponse deletePicture(PictureInfo pictureInfo) {
         try {
@@ -65,6 +76,11 @@ public class PictureControl {
         }
     }
 
+    /**
+     * 修改轮播图
+     * @param pictureInfo
+     * @return
+     */
     @PostMapping("/updatePicture")
     public AppResponse updatePicture(PictureInfo pictureInfo) {
         try {
@@ -93,5 +109,23 @@ public class PictureControl {
         }
     }
 
+
+    /**
+     * 商品查询
+     * @param goodsInfo
+     * @return
+     */
+    @PostMapping("/listGoods")
+    public AppResponse listGoods(GoodsInfo goodsInfo) {
+        try {
+            return pictureService.listGoods(goodsInfo);
+        } catch (Exception e) {
+            logger.error("查询轮播图列表异常", e);
+            System.out.println(e.toString());
+            throw e;
+        }
+
+
+    }
 
 }

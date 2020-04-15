@@ -2,16 +2,18 @@ package PictureControl.service;
 
 
 import GoodsControl.dao.GoodsDao;
+import GoodsControl.entity.GoodsInfo;
 import PictureControl.dao.PictureDao;
 import PictureControl.entity.PictureInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.AppResponse;
 
 import java.util.List;
-
+@Service
 public class PictureService {
     @Autowired
 
@@ -21,7 +23,7 @@ public class PictureService {
      * demo 新增轮播图
      * @param goodsInfo
      * @return
-     * @Author dingning
+     * @Author 刘桂鹏
      * @Date 2020-03-21
      */
 
@@ -49,10 +51,10 @@ public class PictureService {
      * @return
      * @author liuguipeng
      */
-    public AppResponse listPicture(PictureInfo pictureInfo){
+    public AppResponse listPictureByPage(PictureInfo pictureInfo){
 
         PageHelper.startPage(pictureInfo.getPageNum(), pictureInfo.getPageSize());
-        List<PictureInfo> pictureInfoList = pictureDao.listGoodsByPage(pictureInfo);
+        List<PictureInfo> pictureInfoList = pictureDao.listPictureByPage(pictureInfo);
         PageInfo<PictureInfo> pageData = new PageInfo<>(pictureInfoList);
 
         return AppResponse.success("从数据库查询成功!", pageData);
@@ -114,6 +116,20 @@ public class PictureService {
         PictureInfo pictureInfo  = pictureDao.getPictureBySort(pictureSortNum);
         return AppResponse.success("查询成功！", pictureInfo);
     }
+    /**
+     * 查询商品列表
+     * @param goodsInfo
+     * @return
+     * @author liuguipeng
+     */
+    public AppResponse listGoods(GoodsInfo goodsInfo){
 
+        PageHelper.startPage(goodsInfo.getPageNum(), goodsInfo.getPageSize());
+        List<GoodsInfo> goodsInfoList = pictureDao.listGoods(goodsInfo);
+        PageInfo<GoodsInfo> pageData = new PageInfo<>(goodsInfoList);
+
+        return AppResponse.success("从数据库查询成功!", pageData);
+
+    }
 
 }

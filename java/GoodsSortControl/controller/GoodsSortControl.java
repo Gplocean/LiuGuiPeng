@@ -21,7 +21,7 @@ public class GoodsSortControl {
     private GoodsSortService goodsSortService;
 
     /**
-         * demo 新增商品分类
+     * demo 新增商品分类
      *
      * @param goodsSortInfo
      * @return AppResponse
@@ -71,12 +71,12 @@ public class GoodsSortControl {
      * @author Liu
      * @Date 2020-04-10
      */
-    @PostMapping("/listAllGoodsClassify")
+    @PostMapping("/listSecondClassify")
     public AppResponse listSecondGoodsSort(GoodsSortInfo goodsSortInfo) {
         try {
             return goodsSortService.listSecondGoodsSort(goodsSortInfo);
         } catch (Exception e) {
-            logger.error("查询商品分类异常", e);
+            logger.error("查询商品二级分类异常", e);
             System.out.println(e.toString());
             throw e;
         }

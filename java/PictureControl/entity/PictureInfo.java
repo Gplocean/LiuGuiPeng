@@ -22,6 +22,10 @@ public class PictureInfo {
          */
         private int pictureSortNum;
         /**
+         * 轮播图id
+         */
+        private String pictureCode;
+        /**
          * 轮播图路径
          */
         private String picturePath;
@@ -41,6 +45,10 @@ public class PictureInfo {
          * 轮播图对应商品
          */
         private String goodsPicture;
+        /**
+         * 商品ID
+         */
+        private String goodsCode;
         /**
          * 作废标记 0为正常，1为作废
          */
@@ -82,6 +90,14 @@ public class PictureInfo {
 
         public String getPicturePath() {
                 return picturePath;
+        }
+
+        public String getGoodsCode() {
+                return goodsCode;
+        }
+
+        public String getPictureCode() {
+                return pictureCode;
         }
 
         public int getPictureState() {
@@ -154,6 +170,14 @@ public class PictureInfo {
 
         public void setGoodsPicture(String goodsPicture) {
                 this.goodsPicture = goodsPicture;
+        }
+
+        public void setPictureCode(String pictureCode) {
+                this.pictureCode = pictureCode;
+        }
+
+        public void setGoodsCode(String goodsCode) {
+                this.goodsCode = goodsCode;
         }
 
         public void setIsDeleted(int isDeleted) {

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="PictureControl.dao.GoodsDao">
-
-
-
-
+<mapper namespace="PictureControl.dao.PictureDao">
+    <!--新增轮播图-->
 <insert id="addPicture" parameterType="PictureControl.entity.PictureInfo">
     insert into t_picture_management
-    (
+    (   picture_id,
         picture_sorting,
         picture_path,
         picture_state,
@@ -23,7 +20,7 @@
         version
     )
    values
-   (
+   (    #{pictureId},
         #{pictureSortNum},
         #{picturePath},
         #{pictureState},
@@ -41,7 +38,7 @@
 
 
 </insert>
-
+    <!--修改轮播图-->
     <update id="updatePicture" parameterType="PictureControl.entity.PictureInfo">
         update t_picture_management
         set
@@ -50,15 +47,16 @@
         picture_state = #{pictureState},
         effective_date = #{effectiveDate},
         expiry_date = #{expiryDate},
-        goods_picture = {goodsPicture},
-        last_modified_by = now() ,
+        goods_picture = #{goodsPicture},
+        last_modified_by = now(),
         version = version +1
-
-        where picture_sorting = #{pictureSortNum}
-        and is_deleted=0
+        where is_deleted=0
+        <if test="pictureSortNum != null and pictureSortNum != ''">
+            and picture_id like concat('%',#{pictureCode},'%')
+        </if>
     </update>
 
-    <!--删除商品-->
+    <!--删除轮播图-->
     <update id="deletePicture" parameterType="PictureControl.entity.PictureInfo">
         update t_picture_management
         set
@@ -68,34 +66,48 @@
         where picture_sorting = #{pictureSortNum}
 
     </update>
-
-    <select id="listPictureByPage" parameterType="PictureControl.entity.PictureInfo" resultType="PictureControl.entity.PictureInfoInfo">
+    <!--查询轮播图列表-->
+    <select id="listPictureByPage" parameterType="PictureControl.entity.PictureInfo" resultType="PictureControl.entity.PictureInfo">
         select
         picture_sorting,
         picture_path,
         picture_state,
         effective_date,
         expiry_date,
-        goods_picture,
+        goods_picture
         from t_picture_management
         where is_deleted = 0
-        order by gmt_create desc
+        <if test="pictureState != null and pictureState != ''">
+            and picture_state like concat('%', #{pictureState}, '%')
+        </if>
+        order by gmt_create DESC
     </select>
-
-    <select id="countPictureSortNum" parameterType="PictureControl.entity.PictureInfo" resultType="Integer">
+    <!--统计轮播图序号-->
+    <select id="countPictureNum" parameterType="PictureControl.entity.PictureInfo" resultType="Integer">
 
     select  count(picture_sorting)
     from t_picture_management
     where is_deleted = 0
     and picture_sorting = #{pictureSortNum}
     </select>
-
+    <!--获取商品id-->
     <select id="countGoodsCode" parameterType="PictureControl.entity.PictureInfo" resultType="Integer">
 
-    select  count(goodsCode)
+    select  count(goods_code)
     from t_picture_management
     where is_deleted = 0
     and goods_code = #{goodsCode}
     </select>
-
+    <!--获取商品信息-->
+    <select id="listGoods" parameterType="java.lang.String" resultType="GoodsControl.entity.GoodsInfo">
+    select
+    a.goods_code goodsCode,
+    a.goods_name goodsName,
+    a.primary_class,
+    a.second_class,
+    a.goods_status
+    from t_goods_management a
+    where goods_code = #{goodsCode}
+    and is_deleted =0
+    </select>
 </mapper>

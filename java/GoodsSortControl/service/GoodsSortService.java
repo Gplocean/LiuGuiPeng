@@ -1,24 +1,21 @@
 package GoodsSortControl.service;
 
-
-import GoodsControl.entity.GoodsInfo;
 import GoodsSortControl.dao.GoodsSortDao;
 import GoodsSortControl.entity.GoodsSortInfo;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.AppResponse;
 
 import java.util.List;
-
+@Service
 public class GoodsSortService {
     @Autowired
 
     private GoodsSortDao goodsSortDao;
     @Transactional(rollbackFor = Exception.class)
     /**
-     * demo 新增轮播图
+     * demo 新增商品分类
      * @param goodsInfo
      * @return
      * @Author 刘桂鹏
@@ -26,14 +23,10 @@ public class GoodsSortService {
      */
 
     public AppResponse addGoodsSort(GoodsSortInfo goodsSortInfo){
-        int countSortNum = goodsSortDao.countGoodsSort(goodsSortInfo);
-        int countGoodsCode = goodsSortDao.countGoodsCode(goodsSortInfo);
-        //检测序号是否已存在
-        if(countSortNum !=0){
-            return  AppResponse.success("序号已存在，请重新排序");}
-            //检测商品是否已被选择
-        if(countGoodsCode !=0){
-            return  AppResponse.success("商品已选择，请重新选择");}
+        //检测分类名是否已存在
+        int countSortName = goodsSortDao.countSortName(goodsSortInfo);
+        if(countSortName !=0){
+            return  AppResponse.success("分类已存在，请重新输入");}
         goodsSortInfo.setIsDeleted(0);
         int count =goodsSortDao.addGoodsSort(goodsSortInfo);
         if (count == 0) {
@@ -79,7 +72,7 @@ public class GoodsSortService {
     @Transactional(rollbackFor = Exception.class)
     public AppResponse deleteGoodsSort(GoodsSortInfo goodsSortInfo) {
 
-        // 删除用户
+        // 删除商品分类
         int count = goodsSortDao.deleteGoodsSort(goodsSortInfo);
         if (0 == count) {
             return AppResponse.bizError("删除失败，请重试！");
@@ -88,23 +81,18 @@ public class GoodsSortService {
     }
 
     /**
-     * 修改轮播图
+     * 修改商品分类
      * @param goodsSortInfo
      * @return
      * @author 刘桂鹏
      */
     @Transactional(rollbackFor = Exception.class)
     public AppResponse updateGoodsSort(GoodsSortInfo goodsSortInfo) {
-        int countSortNum = goodsSortDao.countGoodsSort(goodsSortInfo);
-        int countGoodsCode = goodsSortDao.countGoodsCode(goodsSortInfo);
         AppResponse appResponse = AppResponse.success("修改成功");
-        //检测序号是否已存在
-        if(countSortNum !=0){
-            return  AppResponse.success("序号已存在，请重新排序");}
-        //检测商品是否已被选择
-        if(countGoodsCode !=0){
-            return  AppResponse.success("商品已选择，请重新选择");}
-        // 修改轮播图信息
+        int countSortName = goodsSortDao.countGoodsSort(goodsSortInfo);
+        //检测商品分类是否存在
+        if(countSortName !=0){
+            return  AppResponse.success("分类名已存在，请重新选择");}
         int count = goodsSortDao.updateGoodsSort(goodsSortInfo);
         if (0 == count) {
             appResponse = AppResponse.versionError("数据有变化，请刷新！");
@@ -115,7 +103,7 @@ public class GoodsSortService {
 
 
     /**
-     * 查询轮播图详情
+     * 查询商品分类详情
      * @param goodsSortSortNum
      * @return
      * @author 刘桂鹏

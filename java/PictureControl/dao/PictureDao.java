@@ -20,7 +20,7 @@ public interface PictureDao {
      * @param pictureInfo
      * @return
      */
-    List<PictureInfo> listGoodsByPage(PictureInfo pictureInfo);
+    List<PictureInfo> listPictureByPage(PictureInfo pictureInfo);
 
 
     /**
@@ -65,4 +65,12 @@ public interface PictureDao {
      * @return
      */
     int countGoodsCode(PictureInfo pictureInfo);
+
+    /**
+     * 查询商品列表篇
+     * @param goodsInfo
+     * @return
+     */
+    List<GoodsInfo> listGoods(GoodsInfo goodsInfo);
+
 }

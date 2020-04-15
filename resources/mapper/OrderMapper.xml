@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="OrderControl.dao.OrderDao">
+    <!--查询订单详情-->
+    <select id="listOrder" parameterType="OrderControl.entity.OrderInfo"  resultType="OrderControl.entity.OrderInfo">
+        select
+        a.user_id,
+        c.order_id,
+        b.goods_id,
+        b.goods_name,
+        c.goods_count,
+        c.order_price,
+        b.goods_sell_price,
+        b.goods_pricing
+        from t_sys_user a,t_goods_management b,t_order_management c
+        where order_id = #{orderCode}
+        and is_deleted = 0
+    </select>
+    <!--查询订单列表-->
+    <select id="listOrderByPage" parameterType="OrderControl.entity.OrderInfo"  resultType="OrderControl.entity.OrderInfo">
+        select
+        order_id,
+        order_name,
+        order_price,
+        phone,
+        order_status,
+        pay_time,
+        pay_status,
+        store_id,
+        from t_order_management c
+        where is_deleted = 0
+        <if test="orderName != null and orderName != ''">
+            and order_name like concat('%', #{orderName}, '%')
+        </if>
+        <if test="orderCode != null and orderCode != ''">
+            and order_id like concat('%', #{orderCode}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+            and phone like concat('%', #{phone}, '%')
+        </if>
+        <if test="payTime != null and payTime != ''">
+            and pay_time like concat('%', #{payTime}, '%')
+        </if>
+        <if test="orderStatus != null and orderStatus != ''">
+            and order_status like concat('%', #{orderStatus}, '%')
+        </if>
+    </select>
+    <!--修改订单状态-->
+    <update id="updateOrder" parameterType="OrderControl.entity.OrderInfo" >
+        update t_order_management
+        set
+            order_status = #{orderStatus},
+            version = version + 1
+        where is_deleted = 0
+        <if test="orderCode != null and orderCode != ''">
+        and order_id like concat('%', #{orderCode}, '%')
+    </if>
+    </update>
+</mapper>

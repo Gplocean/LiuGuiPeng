@@ -69,5 +69,5 @@ public interface GoodsSortDao {
      * @param goodsSortInfo
      * @return
      */
-    int countGoodsCode(GoodsSortInfo goodsSortInfo);
+    int countSortName(GoodsSortInfo goodsSortInfo);
 }

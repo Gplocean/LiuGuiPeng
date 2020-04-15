@@ -14,7 +14,7 @@ import java.util.List;
 
 
 /**
- * @DescriptionDemo 实现类
+ * @DescriptionDemo 商品管理实现类
  * @Author 刘桂鹏
  * @Date 2020-03-26
  */
@@ -28,7 +28,7 @@ public class GoodsService {
     private GoodsDao goodsDao;
     @Transactional(rollbackFor = Exception.class)
     /**
-     * demo 新增用户
+     * demo 新增商品
      * @param goodsInfo
      * @return
      * @Author dingning
@@ -96,7 +96,7 @@ public class GoodsService {
         if (0 != countGoodsName) {
             return AppResponse.bizError("商品已存在，请重新输入！");
         }
-        // 修改用户信息
+        // 修改商品信息
         int count = goodsDao.updateGoods(goodsInfo);
         if (0 == count) {
             appResponse = AppResponse.versionError("数据有变化，请刷新！");

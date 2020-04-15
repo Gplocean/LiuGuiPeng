@@ -70,6 +70,7 @@
             gmt_modified = now(),
             last_modified_by  = #{lastModifiedBy},
             is_deleted = 1
+            where is_deleted = 0
     </update>
 <select id="countSortName" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="Integer">
     select  count(class_name)

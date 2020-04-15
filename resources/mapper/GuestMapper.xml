@@ -4,7 +4,7 @@
 
 
     <!--客户列表-->
-    <select id="listGoodsByPage" parameterType="GuestControl.entity.GuestInfo" resultType="GuestControl.entity.GuestInfo">
+    <select id="listGuestByPage" parameterType="GuestControl.entity.GuestInfo" resultType="GuestControl.entity.GuestInfo">
 
   select
       user_acct,
@@ -14,12 +14,12 @@
       email,
       idCard
   from  t_guest_management
-  where is_deleted =0 and
-        <if test="userAcct != null and userAcct != ''">
-            and user_acct like concat('%', #{userAcct}, '%')
+  where is_deleted =0
+        <if test="userAccount != null and userAccount != ''">
+            and user_acct like concat('%', #{userAccount}, '%')
         </if>
-        <if test="userName != null and userName != ''">
-        and user_name like concat('%', #{userName}, '%')
+        <if test="guestName != null and guestName != ''">
+        and user_name like concat('%', #{guestName}, '%')
         </if>
 
 

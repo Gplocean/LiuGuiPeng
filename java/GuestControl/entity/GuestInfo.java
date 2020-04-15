@@ -25,7 +25,7 @@ public class GuestInfo {
         /**
          * 客户账号
          */
-        private String guestAccount;
+        private String userAccount;
         /**
          * 客户名
          */
@@ -90,8 +90,8 @@ public class GuestInfo {
                 return guestCode;
         }
 
-        public String getGuestAccount() {
-                return guestAccount;
+        public String getUserAccount() {
+                return userAccount;
         }
 
         public String getGuestName() {
@@ -154,8 +154,8 @@ public class GuestInfo {
                 this.guestCode = guestCode;
         }
 
-        public void setGuestAccount(String guestAccount) {
-                this.guestAccount = guestAccount;
+        public void setUserAccount(String guestAccount) {
+                this.userAccount = guestAccount;
         }
 
         public void setGuestName(String guestName) {

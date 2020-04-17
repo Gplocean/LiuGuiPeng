@@ -1,10 +1,9 @@
-package PictureControl.service;
+package HotGoodsControl.service;
 
 
-import GoodsControl.dao.GoodsDao;
 import GoodsControl.entity.GoodsInfo;
-import PictureControl.dao.PictureDao;
-import PictureControl.entity.PictureInfo;
+import HotGoodsControl.dao.HotGoodsDao;
+import HotGoodsControl.entity.HotGoodsInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,31 +12,33 @@ import org.springframework.transaction.annotation.Transactional;
 import util.AppResponse;
 
 import java.util.List;
+
 @Service
-public class PictureService {
+public class HotGoodsService {
     @Autowired
 
-    private PictureDao pictureDao;
+    private HotGoodsDao hotGoodsDao;
     @Transactional(rollbackFor = Exception.class)
     /**
-     * demo 新增轮播图
+     * demo 新增热门商品
      * @param goodsInfo
      * @return
      * @Author 刘桂鹏
      * @Date 2020-03-21
      */
 
-    public AppResponse addPicture(PictureInfo pictureInfo){
-        int countSortNum = pictureDao.countPictureNum(pictureInfo);
-        int countGoodsCode = pictureDao.countGoodsCode(pictureInfo);
+    public AppResponse addHotGoods(HotGoodsInfo hotGoodsInfo){
+        int countHotGoodsNum = hotGoodsDao.countHotGoodsNum(hotGoodsInfo);
+        int countGoodsCode = hotGoodsDao.countGoodsCode(hotGoodsInfo);
         //检测序号是否已存在
-        if(countSortNum !=0){
+        if(countHotGoodsNum!=0){
             return  AppResponse.success("序号已存在，请重新排序");}
             //检测商品是否已被选择
         if(countGoodsCode !=0){
             return  AppResponse.success("商品已选择，请重新选择");}
-        pictureInfo.setIsDeleted(0);
-        int count =pictureDao.addPicture(pictureInfo);
+        hotGoodsInfo.setIsDeleted(0);
+        hotGoodsInfo.setCreateBy("刘桂鹏");
+        int count =hotGoodsDao.addHotGoods(hotGoodsInfo);
         if (count == 0) {
             return AppResponse.success("新增失败");
         }
@@ -46,33 +47,33 @@ public class PictureService {
     }
 
     /**
-     * 查询轮播图列表
-     * @param pictureInfo
+     * 查询热门商品列表
+     * @param hotGoodsInfo
      * @return
      * @author liuguipeng
      */
-    public AppResponse listPictureByPage(PictureInfo pictureInfo){
+    public AppResponse listHotGoodsByPage(HotGoodsInfo hotGoodsInfo){
 
-        PageHelper.startPage(pictureInfo.getPageNum(), pictureInfo.getPageSize());
-        List<PictureInfo> pictureInfoList = pictureDao.listPictureByPage(pictureInfo);
-        PageInfo<PictureInfo> pageData = new PageInfo<>(pictureInfoList);
+        PageHelper.startPage(hotGoodsInfo.getPageNum(), hotGoodsInfo.getPageSize());
+        List<HotGoodsInfo> hotGoodsInfoList = hotGoodsDao.listHotGoodsByPage(hotGoodsInfo);
+        PageInfo<HotGoodsInfo> pageData = new PageInfo<>(hotGoodsInfoList);
 
         return AppResponse.success("从数据库查询成功!", pageData);
 
     }
 
     /**
-     * 删除轮播图
-     * @param pictureInfo
+     * 删除热门商品
+     * @param hotGoodsInfo
      * @return
      * @author 刘桂鹏
      *
      */
     @Transactional(rollbackFor = Exception.class)
-    public AppResponse deletePicture(PictureInfo pictureInfo) {
+    public AppResponse deleteHotGoods(HotGoodsInfo hotGoodsInfo) {
 
         // 删除用户
-        int count = pictureDao.deletePicture(pictureInfo);
+        int count = hotGoodsDao.deleteHotGoods(hotGoodsInfo);
         if (0 == count) {
             return AppResponse.bizError("删除失败，请重试！");
         }
@@ -80,17 +81,24 @@ public class PictureService {
     }
 
     /**
-     * 修改轮播图状态
-     * @param pictureInfo
+     * 修改热门商品
+     * @param hotGoodsInfo
      * @return
      * @author 刘桂鹏
      */
     @Transactional(rollbackFor = Exception.class)
-    public AppResponse updatePicture(PictureInfo pictureInfo) {
+    public AppResponse updateHotGoods(HotGoodsInfo hotGoodsInfo) {
+        int countSortNum = hotGoodsDao.countHotGoodsNum(hotGoodsInfo);
+        int countGoodsCode = hotGoodsDao.countGoodsCode(hotGoodsInfo);
         AppResponse appResponse = AppResponse.success("修改成功");
-
-        // 修改轮播图状态
-        int count = pictureDao.updatePicture(pictureInfo);
+        //检测序号是否已存在
+        if(countSortNum !=0){
+            return  AppResponse.success("序号已存在，请重新排序");}
+        //检测商品是否已被选择
+        if(countGoodsCode !=0){
+            return  AppResponse.success("商品已选择，请重新选择");}
+        // 修改轮播图信息
+        int count = hotGoodsDao.updateHotGoods(hotGoodsInfo);
         if (0 == count) {
             appResponse = AppResponse.versionError("数据有变化，请刷新！");
             return appResponse;
@@ -100,14 +108,14 @@ public class PictureService {
 
 
     /**
-     * 查询轮播图详情
-     * @param pictureSortNum
+     * 查询热门商品详情
+     * @param hotGoodsSortNum
      * @return
      * @author 刘桂鹏
      */
-    public AppResponse getPictureBySort(PictureInfo pictureSortNum) {
-        PictureInfo pictureInfo  = pictureDao.getPictureBySort(pictureSortNum);
-        return AppResponse.success("查询成功！", pictureInfo);
+    public AppResponse getHotGoods(HotGoodsInfo hotGoodsSortNum) {
+        HotGoodsInfo hotGoodsInfo = hotGoodsDao.getHotGoods(hotGoodsSortNum);
+        return AppResponse.success("查询成功！", hotGoodsInfo);
     }
     /**
      * 查询商品列表
@@ -118,7 +126,7 @@ public class PictureService {
     public AppResponse listGoods(GoodsInfo goodsInfo){
 
         PageHelper.startPage(goodsInfo.getPageNum(), goodsInfo.getPageSize());
-        List<GoodsInfo> goodsInfoList = pictureDao.listGoods(goodsInfo);
+        List<GoodsInfo> goodsInfoList = hotGoodsDao.listGoods(goodsInfo);
         PageInfo<GoodsInfo> pageData = new PageInfo<>(goodsInfoList);
 
         return AppResponse.success("从数据库查询成功!", pageData);

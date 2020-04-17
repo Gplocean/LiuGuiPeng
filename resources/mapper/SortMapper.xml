@@ -34,16 +34,22 @@
 
     <!--查询一级商品分类名-->
 <select id="listFirstGoodsSort" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="GoodsSortControl.entity.GoodsSortInfo">
-    select sort_name
+    select
+    sort_name,
+    sort_id,
+    version
     from sort_first_name
     where is_deleted = 0
 </select>
 
     <!--查询二级商品分类名-->
     <select id="listSecondGoodsSort" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="GoodsSortControl.entity.GoodsSortInfo">
-    select sort_name
+    select
+    sort_name
+    sort_id,
+    version
     from sort_second_name
-    where sort_id = #{classParent}
+    where sort_id = #{classCode}
     and is_deleted = 0
 </select>
     <!--修改商品分类-->
@@ -55,23 +61,22 @@
             remarks = #{remarks},
             version = version+1
             gmt_modified = now(),
-            last_modified_by   = #{lastModifiedBy}
-
+            last_modified_by  = #{lastModifiedBy}
+           where is_deleted = 0
+           and version = #{version}
     </update>
 
     <!--删除商品分类-->
     <update id="deleteGoodsSort" parameterType="GoodsSortControl.entity.GoodsSortInfo" >
         update  t_goods_classification
         set
-            class_id = #{classCode},
-            class_name = #{className},
-            remarks = #{remarks},
-            version = version+1,
             gmt_modified = now(),
             last_modified_by  = #{lastModifiedBy},
-            is_deleted = 1
-            where is_deleted = 0
+            is_deleted = 1,
+            version = version + 1
+            where clss_id = #{classCode}
     </update>
+    <!--统计商品分类名-->
 <select id="countSortName" parameterType="GoodsSortControl.entity.GoodsSortInfo" resultType="Integer">
     select  count(class_name)
     from t_goods_classification

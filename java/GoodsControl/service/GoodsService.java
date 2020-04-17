@@ -37,6 +37,7 @@ public class GoodsService {
 
     public  AppResponse addGoods(GoodsInfo goodsInfo){
         int countGoodsName = goodsDao.countGoodsName(goodsInfo);
+        //检验商品是否存在
         if(countGoodsName !=0){
         return  AppResponse.success("商品已存在，请重新输入");}
         goodsInfo.setIsDeleted(0);
@@ -74,7 +75,7 @@ public class GoodsService {
     @Transactional(rollbackFor = Exception.class)
     public AppResponse deleteGoods(GoodsInfo goodsInfo) {
 
-        // 删除用户
+        // 删除商品
         int count = goodsDao.deleteGoods(goodsInfo);
         if (0 == count) {
             return AppResponse.bizError("删除失败，请重试！");
@@ -83,7 +84,7 @@ public class GoodsService {
     }
 
     /**
-     * 修改用户
+     * 修改商品
      * @param goodsInfo
      * @return
      * @author 刘桂鹏
@@ -91,12 +92,31 @@ public class GoodsService {
     @Transactional(rollbackFor = Exception.class)
     public AppResponse updateGoods(GoodsInfo goodsInfo) {
         AppResponse appResponse = AppResponse.success("修改成功");
-        // 校验账号是否存在
+        // 校验商品是否存在
         int countGoodsName = goodsDao.countGoodsName(goodsInfo);
         if (0 != countGoodsName) {
             return AppResponse.bizError("商品已存在，请重新输入！");
         }
         // 修改商品信息
+        int count = goodsDao.updateGoods(goodsInfo);
+        if (0 == count) {
+            appResponse = AppResponse.versionError("数据有变化，请刷新！");
+            return appResponse;
+        }
+        return appResponse;
+    }
+
+    /**
+     * 修改商品状态
+     * @param goodsInfo
+     * @return
+     * @author 刘桂鹏
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public AppResponse updateGoodsState(GoodsInfo goodsInfo) {
+        AppResponse appResponse = AppResponse.success("修改成功");
+
+        // 修改商品状态
         int count = goodsDao.updateGoods(goodsInfo);
         if (0 == count) {
             appResponse = AppResponse.versionError("数据有变化，请刷新！");
@@ -116,4 +136,6 @@ public class GoodsService {
         GoodsInfo goodsInfo = goodsDao.getGoodsByCode(goodsCode);
         return AppResponse.success("查询成功！", goodsInfo);
     }
+
+
 }

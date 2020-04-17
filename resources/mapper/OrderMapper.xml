@@ -26,7 +26,7 @@
         order_status,
         pay_time,
         pay_status,
-        store_id,
+        store_id
         from t_order_management c
         where is_deleted = 0
         <if test="orderName != null and orderName != ''">
@@ -50,6 +50,7 @@
         update t_order_management
         set
             order_status = #{orderStatus},
+            gmt_modified = now(),
             version = version + 1
         where is_deleted = 0
         <if test="orderCode != null and orderCode != ''">

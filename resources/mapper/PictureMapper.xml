@@ -35,24 +35,20 @@
         #{lastModifiedBy},
         0
    )
-
-
 </insert>
-    <!--修改轮播图-->
+    <!--修改轮播图状态-->
     <update id="updatePicture" parameterType="PictureControl.entity.PictureInfo">
         update t_picture_management
         set
-        picture_sorting = #{pictureSortNum},
-        picture_path = #{picturePath},
-        picture_state = #{pictureState},
-        effective_date = #{effectiveDate},
-        expiry_date = #{expiryDate},
-        goods_picture = #{goodsPicture},
-        last_modified_by = now(),
-        version = version +1
+        picture_state = #{pictureState}
+        gmt_modified = now(),
+        version = version + 1
         where is_deleted=0
-        <if test="pictureSortNum != null and pictureSortNum != ''">
+        <if test="pictureCode != null and pictureCode != ''">
             and picture_id like concat('%',#{pictureCode},'%')
+        </if>
+        <if test="version != null and version != ''">
+            and version like concat('%',#{version},'%')
         </if>
     </update>
 
@@ -90,7 +86,7 @@
     where is_deleted = 0
     and picture_sorting = #{pictureSortNum}
     </select>
-    <!--获取商品id-->
+    <!--统计商品id-->
     <select id="countGoodsCode" parameterType="PictureControl.entity.PictureInfo" resultType="Integer">
 
     select  count(goods_code)
@@ -98,7 +94,7 @@
     where is_deleted = 0
     and goods_code = #{goodsCode}
     </select>
-    <!--获取商品信息-->
+    <!--查询商品列表-->
     <select id="listGoods" parameterType="java.lang.String" resultType="GoodsControl.entity.GoodsInfo">
     select
     a.goods_code goodsCode,

@@ -18,9 +18,6 @@ public class OrderService {
     private OrderDao orderDao;
     @Transactional(rollbackFor = Exception.class)
 
-
-
-
     /**
      * 查询订单列表
      * @param orderInfo

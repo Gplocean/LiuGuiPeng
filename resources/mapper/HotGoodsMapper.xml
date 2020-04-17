@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="HotGoodsControl.dao.HotGoodsDao">
+
+    <!--新增热门商品-->
+    <insert id="addHotGoods" parameterType="HotGoodsControl.entity.HotGoodsInfo" >
+        insert  into t_hotgoods_management(
+        hotGoods_id,
+        goods_id,
+        hotGoods_num,
+        is_deleted,
+        gmt_create,
+        version
+        )
+        values (
+        now(),
+        #{goodsCode},
+        #{hotGoodsNum},
+        0,
+        now(),
+        0
+        )
+    </insert>
+    <!--查询热门商品详情-->
+    <select id="getHotGoods" parameterType="HotGoodsControl.entity.HotGoodsInfo" resultType="HotGoodsControl.entity.HotGoodsInfo">
+        select
+        hotGoods_num,
+        hotGoods_id,
+        goods_id,
+        goods_name,
+        goods_price
+        from t_hotgoods_management
+        where hotGoods_id = #{hotGoodsCode}
+        and is_deleted = 0
+    </select>
+    <!--查询热门商品列表-->
+    <select id="getHotGoodsByPage" parameterType="HotGoodsControl.entity.HotGoodsInfo" resultType="HotGoodsControl.entity.HotGoodsInfo">
+        select
+        hotGoods_num,
+        hotGoods_id,
+        goods_id,
+        goods_name,
+        goods_price,
+        goods_introduction
+        from t_hotgoods_management
+        where is_deleted = 0
+        <if test="goodsName!= null and goodsName != ''">
+            and goods_name like concat('%',#{goodsName},'%')
+        </if>
+        <if test="goodsCode!= null and goodsCode != ''">
+            and goods_id like concat('%',#{goodsCode},'%')
+        </if>
+    </select>
+    <!--查询热门商品数量-->
+    <select id="getHotGoodsShowNum" parameterType="HotGoodsControl.entity.HotGoodsInfo" resultType="HotGoodsControl.entity.HotGoodsInfo" >
+          select  count(hotGoods_num)
+          from t_hotgoods_management
+          where is_deleted = 0
+    </select>
+    <!--修改热门商品-->
+    <update id="updateHotGoods" parameterType="HotGoodsControl.entity.HotGoodsInfo" >
+        update t_hotgoods_management
+        set hotGoods_id = #{hotGoodsCode},
+            hotGoods_num = #{hotGoodsNum},
+            version = version + 1
+            where is_deleted = 0
+    </update>
+    <!--删除热门商品-->
+    <update id="deleteHotGoods" parameterType="HotGoodsControl.entity.HotGoodsInfo" >
+        update t_hotgoods_management
+        set
+            is_deleted = 1,
+            version = version + 1
+            where hotGoods_id = #{hotGoodsCode}
+    </update>
+    <!--判断商品是否已被选择-->
+    <select id="countGoodsCode" parameterType="HotGoodsControl.entity.HotGoodsInfo" resultType="Integer"  >
+          select  count(goods_id)
+          from t_hotgoods_management
+          where is_deleted = 0
+    </select>
+    <!--判断序号已被使用-->
+    <select id="countHotGoodsNum" parameterType="HotGoodsControl.entity.HotGoodsInfo" resultType="Integer" >
+          select  count(hotGoods_num)
+          from t_hotgoods_management
+          where is_deleted = 0
+    </select>
+
+</mapper>

@@ -56,4 +56,11 @@ public interface GoodsDao {
      * @return
      */
       int deleteGoods(GoodsInfo goodsInfo);
+
+    /**
+     * 修改商品状态
+     * @param goodsInfo
+     * @return
+     */
+      int updateGoodsState(GoodsInfo goodsInfo);
 }

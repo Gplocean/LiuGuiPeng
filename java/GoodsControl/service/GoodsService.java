@@ -137,5 +137,15 @@ public class GoodsService {
         return AppResponse.success("查询成功！", goodsInfo);
     }
 
+    /**
+     * 查询商品分类下拉
+     * @param goodsCode
+     * @return
+     * @author 刘桂鹏
+     */
+    public AppResponse getGoodsSort(GoodsInfo goodsCode) {
+        GoodsInfo goodsInfo = goodsDao.getGoodsSort(goodsCode);
+        return AppResponse.success("查询成功！", goodsInfo);
+    }
 
 }

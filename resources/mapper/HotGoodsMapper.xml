@@ -10,14 +10,20 @@
         hotGoods_num,
         is_deleted,
         gmt_create,
-        version
+        create_by,
+        gmt_modified,
+        last_modified_by,
+        version)
         )
         values (
-        now(),
+        #{hotGoodsCode},
         #{goodsCode},
         #{hotGoodsNum},
         0,
         now(),
+        #{createBy},
+        now(),
+        #{lastModified},
         0
         )
     </insert>
@@ -62,16 +68,19 @@
         update t_hotgoods_management
         set hotGoods_id = #{hotGoodsCode},
             hotGoods_num = #{hotGoodsNum},
-            version = version + 1
+
             where is_deleted = 0
     </update>
     <!--删除热门商品-->
     <update id="deleteHotGoods" parameterType="HotGoodsControl.entity.HotGoodsInfo" >
         update t_hotgoods_management
         set
-            is_deleted = 1,
-            version = version + 1
-            where hotGoods_id = #{hotGoodsCode}
+        is_deleted = 1,
+        gmt_modified = now(),
+        last_modified_by =#{lastModified},
+        version = version + 1
+        where hotGoods_id = #{hotGoodsCode}
+        and  version =#{version}
     </update>
     <!--判断商品是否已被选择-->
     <select id="countGoodsCode" parameterType="HotGoodsControl.entity.HotGoodsInfo" resultType="Integer"  >

@@ -71,7 +71,7 @@ public class PictureService {
     @Transactional(rollbackFor = Exception.class)
     public AppResponse deletePicture(PictureInfo pictureInfo) {
 
-        // 删除用户
+        // 删除轮播图
         int count = pictureDao.deletePicture(pictureInfo);
         if (0 == count) {
             return AppResponse.bizError("删除失败，请重试！");

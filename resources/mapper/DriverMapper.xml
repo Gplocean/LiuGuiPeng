@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="DriverControl.entity.DriverInfo">
+<!--新增司机-->
+<insert id="addDriver" parameterType="DriverControl.entity.DriverInfo" >
+    insert into t_driver_information
+    (
+        driver_id,
+        driver_name,
+        driver_phone,
+        driver_id_card,
+        driver_code,
+        driver_pwd,
+        province,
+        city,
+        district,
+        is_deleted,
+        gmt_create,
+        create_by,
+        gmt_modified,
+        last_modified_by,
+        version
+    )
+    values (
+    #{driverCode},
+    #{driverName},
+    #{driverPhone},
+    #{driverIdCard},
+    #{driverAcct},
+    #{driverPwd},
+    #{provinceCode},
+    #{cityCode},
+    #{areaCode},
+    0,
+    now(),
+    #{createBy},
+    now(),
+    #{lastModifiedBy},
+    0
+    )
+</insert>
+    <!--查询司机详情-->
+    <select id="getDriver" parameterType="DriverControl.entity.DriverInfo" resultType="DriverControl.entity.DriverInfo">
+        select
+        driver_id,
+        driver_name,
+        driver_phone,
+        driver_code,/*司机账号*/
+        driver_pwd,
+        driver_image,
+        driver_id_card,
+        province,
+        city,
+        district,
+        version
+        from t_driver_information
+        where is_deleted = 0
+        <if test="driverCode != null and driverCode != ''">
+            and driver_id like concat('%', #{driverCode}, '%')
+        </if>
+
+    </select>
+    <!--修改司机信息-->
+    <update id="updateDriver" parameterType="DriverControl.entity.DriverInfo" >
+        update  t_driver_information
+        set
+        driver_id = #{driverId}
+        driver_name = #{driverName},
+        driver_phone = #{driverPhone},
+        driver_code = #{driverAcct},
+        driver_image = #{driverImage},
+        driver_id_card =#{driverIdCard},
+        province = #{provinceCode},
+        city = #{cityCode},
+        district = #{areaCode},
+        version = version +1
+        where  is_deleted = 0
+        and version = #{verion}
+    </update>
+    <!--删除司机信息-->
+    <update id="deleteDriver" parameterType="DriverControl.entity.DriverInfo" >
+        update t_driver_information
+        set
+        is_deleted = 1,
+        gmt_modified = now(),
+        last_modified_by = #{lastModifiedBy},
+        version = version + 1
+        where is_deleted = 0
+         <if test="driverCode != null and driverCode != ''">
+        and driver_id like concat('%', #{driverCode}, '%')
+    </if>
+    </update>
+</mapper>

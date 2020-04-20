@@ -116,15 +116,16 @@
     and goods_name = #{goodsName}
 </select>
 
-
     <!--删除商品-->
     <update id="deleteGoods" parameterType="GoodsControl.entity.GoodsInfo">
         update t_goods_management
         set
         is_deleted = 1,
         gmt_modified = now(),
+        last_modified_by =#{lastModified},
         version = version + 1
         where goods_code = #{goodsCode}
+        and version = #{verion}
     </update>
 
     <!--修改商品信息-->
@@ -189,4 +190,13 @@
         where is_deleted = 0
         and goods_code = #{goodsCode}
     </update>
+
+    <!--查询商品分类下拉-->
+    <select id="getGoodsSort" parameterType="GoodsControl.entity.GoodsInfo" resultType="GoodsControl.entity.GoodsInfo">
+        select
+        a.class_id,
+        b.class_name
+        from t_goods_management a,t_goods_classification b
+        where a.class_id = b.class_id
+    </select>
 </mapper>

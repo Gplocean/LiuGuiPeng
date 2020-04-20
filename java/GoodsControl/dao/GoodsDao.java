@@ -63,4 +63,10 @@ public interface GoodsDao {
      * @return
      */
       int updateGoodsState(GoodsInfo goodsInfo);
+    /**
+     * 查询商品分类
+     * @param goodsInfo
+     * @return
+     */
+    GoodsInfo getGoodsSort(GoodsInfo goodsInfo);
 }

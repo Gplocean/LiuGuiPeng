@@ -1,22 +1,21 @@
-package StoreControl.service;
+package DriverControl.service;
 
 
-import StoreControl.dao.StoreDao;
-import StoreControl.entity.StoreInfo;
+import DriverControl.dao.DriverDao;
+import DriverControl.entity.DriverInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.AppResponse;
-
 import java.util.List;
 
 @Service
-public class StoreService {
+public class DriverService {
     @Autowired
 
-    private StoreDao storeDao;
+    private DriverDao driverDao;
     @Transactional(rollbackFor = Exception.class)
     /**
      * demo 新增门店
@@ -26,15 +25,15 @@ public class StoreService {
      * @Date 2020-03-21
      */
 
-    public AppResponse addStore(StoreInfo storeInfo){
-        int countStoreNum = storeDao.countStoreCode(storeInfo);
+    public AppResponse addDriver(DriverInfo driverInfo){
+        int countDriverName = driverDao.countDriverName(driverInfo);
         //检测门店号是否存在
-        if(countStoreNum!=0){
+        if(countDriverName!=0){
             return  AppResponse.success("门店已存在，请重新排序");}
 
-        storeInfo.setIsDeleted(0);
-        storeInfo.setCreateBy("刘桂鹏");
-        int count = storeDao.addStore(storeInfo);
+        driverInfo.setIsDeleted(0);
+        driverInfo.setCreateBy("刘桂鹏");
+        int count = driverDao.addDriver(driverInfo);
         if (count == 0) {
             return AppResponse.success("新增失败");
         }
@@ -44,15 +43,15 @@ public class StoreService {
 
     /**
      * 查询门店列表
-     * @param storeInfo
+     * @param driverInfo
      * @return
      * @author liuguipeng
      */
-    public AppResponse listStoreByPage(StoreInfo storeInfo){
+    public AppResponse listDriverByPage(DriverInfo driverInfo){
 
-        PageHelper.startPage(storeInfo.getPageNum(), storeInfo.getPageSize());
-        List<StoreInfo> storeInfoList = storeDao.listStoreByPage(storeInfo);
-        PageInfo<StoreInfo> pageData = new PageInfo<>(storeInfoList);
+        PageHelper.startPage(driverInfo.getPageNum(), driverInfo.getPageSize());
+        List<DriverInfo> driverInfoList = driverDao.listDriver(driverInfo);
+        PageInfo<DriverInfo> pageData = new PageInfo<>(driverInfoList);
 
         return AppResponse.success("从数据库查询成功!", pageData);
 
@@ -60,16 +59,16 @@ public class StoreService {
 
     /**
      * 删除门店
-     * @param storeInfo
+     * @param driverInfo
      * @return
      * @author 刘桂鹏
      *
      */
     @Transactional(rollbackFor = Exception.class)
-    public AppResponse deleteStore(StoreInfo storeInfo) {
+    public AppResponse deletedDriver(DriverInfo driverInfo) {
 
         // 删除门店
-        int count = storeDao.deleteStore(storeInfo);
+        int count = driverDao.deleteDriver(driverInfo);
         if (0 == count) {
             return AppResponse.bizError("删除失败，请重试！");
         }
@@ -78,17 +77,17 @@ public class StoreService {
 
     /**
      * 修改门店
-     * @param storeInfo
+     * @param driverInfo
      * @return
      * @author 刘桂鹏
      */
     @Transactional(rollbackFor = Exception.class)
-    public AppResponse updateStore(StoreInfo storeInfo) {
-        int countStoreCode = storeDao.countStoreCode(storeInfo);
+    public AppResponse updateDriver(DriverInfo driverInfo) {
+        int countdriverCode = driverDao.countDriverCode(driverInfo);
         AppResponse appResponse = AppResponse.success("修改成功");
-        if(countStoreCode !=0){
+        if(countdriverCode !=0){
             return  AppResponse.success("店铺已存在，请重新输入");}
-        int count = storeDao.updateStore(storeInfo);
+        int count = driverDao.updateDriver(driverInfo);
         if (0 == count) {
             appResponse = AppResponse.versionError("数据有变化，请刷新！");
             return appResponse;
@@ -99,13 +98,13 @@ public class StoreService {
 
     /**
      * 查询门店详情
-     * @param StoreInfo
+     * @param driverInfo
      * @return
      * @author 刘桂鹏
      */
-    public AppResponse getStore(StoreInfo StoreInfo) {
-        StoreInfo storeInfo = storeDao.getStore(StoreInfo);
-        return AppResponse.success("查询成功！", storeInfo);
+    public AppResponse getDriver(DriverInfo driverInfo) {
+        DriverInfo driverInfoList = driverDao.getDriver(driverInfo);
+        return AppResponse.success("查询成功！", driverInfoList);
     }
 
 

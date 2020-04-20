@@ -69,6 +69,7 @@
         address,
         store_invite_code,
         user_code
+        from t_store_information
         where is_deleted = 0
         <if test="storeCode != null and storeCode != ''">
             and store_id like concat('%',#{storeCode},'%')
@@ -89,7 +90,9 @@
     </select>
     <!--修改门店信息-->
     <update id="updateStore" parameterType="StoreControl.entity.StoreInfo">
-        update set
+        update
+         t_store_information
+         set
         store_name = #{storeName},
         phone = #{phone},
         user_id = #{hostCode},
@@ -106,7 +109,7 @@
     </update>
 <!--删除门店-->
     <update id="deleteStore" parameterType="StoreControl.entity.StoreInfo">
-        update
+        update t_store_information
         is_deleted = 1,
         version = version + 1,
         last_modified_by = now()
@@ -114,4 +117,12 @@
         store_id = #{storeCode}
         and version =#{version}
     </update>
+<!--统计门店数量-->
+    <select id="countStoreCode" parameterType="StoreControl.entity.StoreInfo" resultType="StoreControl.entity.StoreInfo" >
+
+        select count (store_id)
+        from t_store_information
+        where store_id = #{storeCode}
+        and is_deleted = 0
+    </select>
 </mapper>

@@ -18,7 +18,7 @@ public class DriverService {
     private DriverDao driverDao;
     @Transactional(rollbackFor = Exception.class)
     /**
-     * demo 新增门店
+     * demo 新增司机
      * @param goodsInfo
      * @return
      * @Author 刘桂鹏
@@ -27,9 +27,9 @@ public class DriverService {
 
     public AppResponse addDriver(DriverInfo driverInfo){
         int countDriverName = driverDao.countDriverName(driverInfo);
-        //检测门店号是否存在
+        //检测司机名是否存在
         if(countDriverName!=0){
-            return  AppResponse.success("门店已存在，请重新排序");}
+            return  AppResponse.success("司机已存在，请重新排序");}
 
         driverInfo.setIsDeleted(0);
         driverInfo.setCreateBy("刘桂鹏");
@@ -42,7 +42,7 @@ public class DriverService {
     }
 
     /**
-     * 查询门店列表
+     * 查询司机列表
      * @param driverInfo
      * @return
      * @author liuguipeng
@@ -58,16 +58,16 @@ public class DriverService {
     }
 
     /**
-     * 删除门店
+     * 删除司机
      * @param driverInfo
      * @return
      * @author 刘桂鹏
      *
      */
     @Transactional(rollbackFor = Exception.class)
-    public AppResponse deletedDriver(DriverInfo driverInfo) {
+    public AppResponse deleteDriver(DriverInfo driverInfo) {
 
-        // 删除门店
+        // 删除司机
         int count = driverDao.deleteDriver(driverInfo);
         if (0 == count) {
             return AppResponse.bizError("删除失败，请重试！");
@@ -76,7 +76,7 @@ public class DriverService {
     }
 
     /**
-     * 修改门店
+     * 修改司机
      * @param driverInfo
      * @return
      * @author 刘桂鹏
@@ -97,7 +97,7 @@ public class DriverService {
 
 
     /**
-     * 查询门店详情
+     * 查询司机详情
      * @param driverInfo
      * @return
      * @author 刘桂鹏

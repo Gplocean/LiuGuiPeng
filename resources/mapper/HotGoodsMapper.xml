@@ -62,13 +62,14 @@
           select  count(hotGoods_num)
           from t_hotgoods_management
           where is_deleted = 0
+          version = #{version}
     </select>
     <!--修改热门商品-->
     <update id="updateHotGoods" parameterType="HotGoodsControl.entity.HotGoodsInfo" >
         update t_hotgoods_management
         set hotGoods_id = #{hotGoodsCode},
             hotGoods_num = #{hotGoodsNum},
-
+             version
             where is_deleted = 0
     </update>
     <!--删除热门商品-->

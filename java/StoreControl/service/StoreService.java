@@ -27,9 +27,9 @@ public class StoreService {
      */
 
     public AppResponse addStore(StoreInfo storeInfo){
-        int countStoreNum = storeDao.countStoreCode(storeInfo);
+        int countStoreCode = storeDao.countStoreCode(storeInfo);
         //检测门店号是否存在
-        if(countStoreNum!=0){
+        if(countStoreCode!=0){
             return  AppResponse.success("门店已存在，请重新排序");}
 
         storeInfo.setIsDeleted(0);

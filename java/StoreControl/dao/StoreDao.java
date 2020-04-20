@@ -14,30 +14,16 @@ import java.util.List;
 public interface StoreDao {
 
      /**
-     *查询热门商品列表
+     *查询门店列表
      * @param storeInfo
      * @return
      */
     List<StoreInfo> listStoreByPage(StoreInfo storeInfo);
 
 
-    /**
-     *查询热门商品展示数量
-     * @param storeInfo
-     * @return
-     */
-    List<StoreInfo> listStoreShowNum(StoreInfo storeInfo);
-
 
     /**
-     * 统计商品名数量
-     * @param storeInfo
-     * @return
-     */
-    int countPictureNum(StoreInfo storeInfo);
-
-    /**
-     * 新增热门商品
+     * 新增门店
      * @param storeInfo
      * @return
      */
@@ -58,35 +44,17 @@ public interface StoreDao {
      */
     int updateStore(StoreInfo storeInfo);
 
-    /**
-     * 修改热门商品展示数量
-     * @param storeInfo
-     * @return
-     */
-    int updateStoreShowNum(StoreInfo storeInfo);
 
     /**
-     * 删除热门商品
+     * 删除门店
      * @param storeInfo
      * @return
      */
     int deleteStore(StoreInfo storeInfo);
 
-    /**
-     * 统计商品编码数量
-     * @param storeInfo
-     * @return
-     */
-    int countGoodsCode(StoreInfo storeInfo);
 
     /**
-     * 统计店长编号个数
-     * @param storeInfo
-     * @return
-     */
-    int countHostCode(StoreInfo storeInfo);
-    /**
-     * 统计店长编号个数
+     * 统计门店编号个数
      * @param storeInfo
      * @return
      */

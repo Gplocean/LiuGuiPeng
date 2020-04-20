@@ -83,9 +83,9 @@ public class DriverService {
      */
     @Transactional(rollbackFor = Exception.class)
     public AppResponse updateDriver(DriverInfo driverInfo) {
-        int countdriverCode = driverDao.countDriverCode(driverInfo);
+        int countDriverCode = driverDao.countDriverCode(driverInfo);
         AppResponse appResponse = AppResponse.success("修改成功");
-        if(countdriverCode !=0){
+        if(countDriverCode !=0){
             return  AppResponse.success("店铺已存在，请重新输入");}
         int count = driverDao.updateDriver(driverInfo);
         if (0 == count) {

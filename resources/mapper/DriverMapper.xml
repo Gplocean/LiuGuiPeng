@@ -90,4 +90,13 @@
         and driver_id like concat('%', #{driverCode}, '%')
     </if>
     </update>
+
+    <!--统计司机id数量-->
+    <select id="countDriverCode" parameterType="DriverControl.entity.DriverInfo" resultType="DriverControl.entity.DriverInfo" >
+
+        select count (driver_id)
+        from t_store_information
+        where store_id = #{storeCode}
+        and is_deleted = 0
+    </select>
 </mapper>
